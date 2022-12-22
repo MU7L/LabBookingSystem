@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0a083f85-bbd3-47fa-b61e-bb23d6484825" name="默认更改列表" comment="" />
+    <list default="true" id="0a083f85-bbd3-47fa-b61e-bb23d6484825" name="默认更改列表" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/admin_frames.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/admin_frames.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,6 +25,9 @@
     <expand />
     <select />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="LabBooking" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -28,8 +35,13 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
+  </component>
   <component name="JupyterTrust" id="71b474df-4457-4f2a-a1c4-f885c9a56114" />
   <component name="ProjectId" id="2HrT35AVjD4bNrNVyTEYYlDCqzI" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -37,6 +49,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/gui/AdminFrames" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
@@ -193,6 +206,7 @@
       <workItem from="1671528174447" duration="20417000" />
       <workItem from="1671591769368" duration="31058000" />
       <workItem from="1671679356832" duration="2241000" />
+      <workItem from="1671681789481" duration="4765000" />
     </task>
     <servers />
   </component>
@@ -257,6 +271,10 @@
     </state>
     <state x="137" y="32" key="SettingsEditor/0.0.1280.752@0.0.1280.752" timestamp="1671540254319" />
     <state x="461" y="158" key="SettingsEditor/1920.7.1280.776/0.0.1920.1032@0.0.1920.1032" timestamp="1669042205851" />
+    <state x="436" y="293" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1671709640894">
+      <screen x="0" y="0" width="1280" height="752" />
+    </state>
+    <state x="436" y="293" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.752@0.0.1280.752" timestamp="1671709640894" />
     <state x="308" y="79" width="672" height="678" key="search.everywhere.popup" timestamp="1671679801191">
       <screen x="0" y="0" width="1280" height="752" />
     </state>

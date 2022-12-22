@@ -48,7 +48,7 @@ class InsertTeacherFrame(tk.Frame):
         if db.admin_insert('teacher', no=no, name=name, phone=phone, department=department):
             tkm.showinfo(title='录入成功', message='{}[{}] 录入成功'.format(name, no))
         else:
-            tkm.askretrycancel(title='录入失败', message='录入失败')
+            tkm.askretrycancel(title='录入失败', message='检查教师编号是否有误')
 
 
 # 录入实验室信息
@@ -97,7 +97,7 @@ class InsertLabFrame(tk.Frame):
         if db.admin_insert('lab', no=no, name=name, capacity=capacity, info=info, photo=photo):
             tkm.showinfo(title='录入成功', message='{}[{}] 录入成功'.format(name, no))
         else:
-            tkm.askretrycancel(title='录入失败', message='录入失败')
+            tkm.askretrycancel(title='录入失败', message='检查实验室编号是否有误')
 
 
 # 录入设备信息
@@ -115,7 +115,7 @@ class InsertDeviceFrame(tk.Frame):
         entry_no = tk.Entry(self, textvariable=self.data_no)
         label_name = tk.Label(self, text='设备名：')
         entry_name = tk.Entry(self, textvariable=self.data_name)
-        label_lab_no = tk.Label(self, text='设备所属实验室：')
+        label_lab_no = tk.Label(self, text='设备所属实验室编号：')
         entry_lab_no = tk.Entry(self, textvariable=self.data_lab_no)
         btn_logon = tk.Button(self, text='录入', command=lambda: self.btn_logon_click())
 
@@ -134,7 +134,11 @@ class InsertDeviceFrame(tk.Frame):
         if db.admin_insert('device', no=no, name=name, lab_no=lab_no):
             tkm.showinfo(title='录入成功', message='{}[{}] 录入成功'.format(name, no))
         else:
-            tkm.askretrycancel(title='录入失败', message='录入失败')
+            # TODO: 将db的异常显示到msg中
+            msg = '''录入失败原因可能是：
+1. 已有该设备编号
+2. 没找到对应实验室编号'''
+            tkm.askretrycancel(title='录入失败', message=msg)
 
 
 # 录入预约记录
@@ -176,6 +180,7 @@ class InsertBookingFrame(tk.Frame):
         entry_user.pack()
         btn_logon.pack()
 
+    # TODO: 检查time合法性？
     def btn_logon_click(self):
         teacher_no = self.data_teacher_no.get()
         lab_no = self.data_lab_no.get()
@@ -186,7 +191,10 @@ class InsertBookingFrame(tk.Frame):
                            user=user):
             tkm.showinfo(title='录入成功', message='{}-{} @{} 录入成功'.format(teacher_no, lab_no, start_time))
         else:
-            tkm.askretrycancel(title='录入失败', message='录入失败')
+            msg = '''录入失败原因可能是：
+1. 教师编号/实验室编号不存在
+2. 起始/结束时间格式不正确'''
+            tkm.askretrycancel(title='录入失败', message=msg)
 
 
 # select ----------------------------------------------------------------------------------------------------------
@@ -235,7 +243,7 @@ class SelectBookingFrame(tk.Frame):
         # new data
         option = self.str_option.get()
         value = self.str_value.get()
-        res = [{c: 'default' for c in self.columns}]
+        res = [{c: 'None' for c in self.columns}]
         if '' not in (option, value):
             res = db.admin_select_1(option, value)
         for r in res:
@@ -283,7 +291,7 @@ class SelectLabFrame1(tk.Frame):
         # new data
         lab_no = self.str_lab_no.get()
         date = self.str_date.get()
-        res = [{c: 'default' for c in self.columns}]
+        res = [{c: 'None' for c in self.columns}]
         # TODO: 检查date合法性？
         if lab_no != '' and date != 'yyyy-mm-dd':
             res = db.admin_select_2(lab_no, date)
@@ -325,7 +333,7 @@ class SelectDeviceFrame(tk.Frame):
             pass
         # new data
         no = self.str_no.get()
-        res = [{c: 'default' for c in self.columns}]
+        res = [{c: 'None' for c in self.columns}]
         if no != '':
             res = db.admin_select_3(no)
         for r in res:
@@ -367,7 +375,7 @@ class SelectLabFrame2(tk.Frame):
             pass
         # new data
         date = self.str_date.get()
-        res = [{c: 'default' for c in self.columns}]
+        res = [{c: 'None' for c in self.columns}]
         # TODO: 检查date合法性？
         if date != 'yyyy-mm-dd':
             res = db.admin_select_4(date)
@@ -423,7 +431,7 @@ class UpdateTeacherFrame(tk.Frame):
         if db.admin_update('teacher', no, name=name, phone=phone, department=department, password=password):
             tkm.showinfo(title='修改成功', message='{}[{}] 修改成功'.format(name, no))
         else:
-            tkm.askretrycancel(title='修改失败', message='修改失败')
+            tkm.askretrycancel(title='修改失败', message='请检查教师编号是否存在')
 
 
 # 修改实验室信息
@@ -472,7 +480,7 @@ class UpdateLabFrame(tk.Frame):
         if db.admin_update('lab', no, name=name, capacity=capacity, info=info, photo=photo):
             tkm.showinfo(title='修改成功', message='{}[{}] 修改成功'.format(name, no))
         else:
-            tkm.askretrycancel(title='修改失败', message='修改失败')
+            tkm.askretrycancel(title='修改失败', message='请检查实验室编号是否存在')
 
 
 # 修改设备信息
@@ -509,7 +517,7 @@ class UpdateDeviceFrame(tk.Frame):
         if db.admin_update('device', no, name=name, lab_no=lab_no):
             tkm.showinfo(title='修改成功', message='{}[{}] 修改成功'.format(name, no))
         else:
-            tkm.askretrycancel(title='修改失败', message='修改失败')
+            tkm.askretrycancel(title='修改失败', message='请检查设备编号是否存在')
 
 
 # delete ----------------------------------------------------------------------------------------------------------
@@ -531,11 +539,15 @@ class DeleteTeacherFrame(tk.Frame):
 
     def delete(self):
         no = self.no.get()
-        if tkm.askokcancel(title='删除确认', message='再次确认是否删除教师 [{}]'.format(no)):
+        if tkm.askokcancel(title='删除', message='是否删除教师 [{}]'.format(no)):
             if db.admin_delete('teacher', no):
                 tkm.showinfo(title='删除成功', message='教师 [{}] 已删除'.format(no))
             else:
-                tkm.askretrycancel(title='删除失败', message='删除失败')
+                # TODO: 返回db异常
+                msg = '''删除失败原因可能为：
+1. 该教师仍有预约记录，不可删除
+2. 该教师不存在'''
+                tkm.askretrycancel(title='删除失败', message=msg)
 
 
 # 删除实验室信息
@@ -555,11 +567,15 @@ class DeleteLabFrame(tk.Frame):
 
     def delete(self):
         no = self.no.get()
-        if tkm.askokcancel(title='删除确认', message='再次确认是否删除教师[{}]'.format(no)):
+        if tkm.askokcancel(title='删除', message='是否删除实验室[{}]'.format(no)):
             if db.admin_delete('lab', no):
                 tkm.showinfo(title='删除成功', message='实验室 [{}] 已删除'.format(no))
             else:
-                tkm.askretrycancel(title='删除失败', message='删除失败')
+                # TODO: 返回db异常
+                msg = '''删除失败原因可能为：
+1. 该实验室仍有预约记录，不可删除
+2. 该实验室不存在'''
+                tkm.askretrycancel(title='删除失败', message=msg)
 
 
 # 删除设备信息
@@ -579,11 +595,15 @@ class DeleteDeviceFrame(tk.Frame):
 
     def delete(self):
         no = self.no.get()
-        if tkm.askokcancel(title='删除确认', message='再次确认是否删除设备 [{}]'.format(no)):
+        if tkm.askokcancel(title='删除', message='是否删除设备 [{}]'.format(no)):
             if db.admin_delete('device', no):
                 tkm.showinfo(title='删除成功', message='设备 [{}] 已删除'.format(no))
             else:
-                tkm.askretrycancel(title='删除失败', message='删除失败')
+                # TODO: 返回db异常
+                msg = '''删除失败原因可能为：
+1. 该设备仍有预约记录，不可删除
+2. 该设备不存在'''
+                tkm.askretrycancel(title='删除失败', message=msg)
 
 
 # 删除预约记录(按教师)

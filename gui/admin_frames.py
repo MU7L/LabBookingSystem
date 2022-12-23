@@ -367,7 +367,7 @@ class SelectLabFrame2(tk.Frame):
 
         # 输出
         self.columns = ('lab_no', 'start_time', 'end_time')
-        columns_show = ('实验室编号', '开始时间', '结束时间')
+        columns_show = ('实验室编号', '空闲开始时间', '空闲结束时间')
         self.table = ttk.Treeview(self, show='headings', columns=self.columns)
         col_width = int(gm.size2[0] / len(self.columns)) - 5
         for i in range(len(self.columns)):

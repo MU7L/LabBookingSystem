@@ -4,6 +4,35 @@ from datetime import datetime, time
 from global_manager import user
 
 
+def convert_busy_empty(date, origin_data, booked):
+    year, month, day = [int(i) for i in date.split('-')]
+    start = datetime(year, month, day, 8, 0)  # yyyy-mm-dd 8:00:00
+    end = datetime(year, month, day, 22, 0)  # yyyy-mm-dd 22:00:00
+    rtn = []
+    ptr = start
+    for t in origin_data:
+        if ptr < t['start_time']:
+            rtn.append({
+                'start_time': str(ptr.time()),
+                'end_time': str(t['start_time'].time()),
+                'status': '空闲'
+            })
+        if booked:
+            rtn.append({
+                'start_time': str(t['start_time'].time()),
+                'end_time': str(t['end_time'].time()),
+                'state': '已预约'
+            })
+        ptr = t['end_time']
+    if ptr < end:
+        rtn.append({
+            'start_time': str(ptr.time()),
+            'end_time': str(end.time()),
+            'status': '空闲'
+        })
+    return rtn
+
+
 class MySQLHelper:
     def __init__(self):
         self.conn = pymysql.connect(
@@ -104,37 +133,14 @@ WHERE teacher.{} = '{}';'''.format(option, value)
 
     # 通过实验室号及日期查询本实验室当天场地已预定时间段
     def admin_select_2(self, lab_no, date):
-        # lab_no = '0'
-        # date = '2022-12-20'
+        # lab_no = 'G101'
+        # date = '2022-12-23'
         sql = '''SELECT start_time, end_time FROM booking
-WHERE lab_no = '{}' AND DATE(start_time) = '{}';'''.format(lab_no, date)
+WHERE lab_no = '{}' AND DATE(start_time) = '{}'
+ORDER BY start_time;'''.format(lab_no, date)
         tmp = self.run(sql)
-        # TODO：将预约记录转为全天状态记录
-        year, month, day = [int(i) for i in date.split('-')]
-        start = datetime(year, month, day, 0)  # 00:00:00
-        end = datetime(year, month, day, 23, 59, 59)  # 23:59:59
-        rtn = []
-        ptr = start
-        for t in tmp:
-            if ptr < t['start_time']:
-                rtn.append({
-                    'start_time': str(start.time()),
-                    'end_time': str(t['start_time'].time()),
-                    'status': '空闲'
-                })
-            rtn.append({
-                'start_time': str(t['start_time'].time()),
-                'end_time': str(t['end_time'].time()),
-                'state': '已预约'
-            })
-            ptr = t['end_time']
-        if ptr < end:
-            rtn.append({
-                'start_time': str(ptr.time()),
-                'end_time': str(end.time()),
-                'status': '空闲'
-            })
-        return rtn
+        # return tmp
+        return convert_busy_empty(date, tmp, True)
 
     # 通过设备号查询设备所在实验室
     def admin_select_3(self, device_no):
@@ -146,6 +152,7 @@ WHERE device.no = '{}';'''.format(device_no)
 
     # 按照年月日查询所有实验室的空闲时间段
     def admin_select_4(self, date):
+        # date = '2022-12-23'
         # 全部预约记录 当天没有记录的为 None
         sql = '''SELECT lab.no as lab_no, selected.start_time, selected.end_time
 FROM lab
@@ -155,8 +162,36 @@ LEFT JOIN (SELECT lab_no, start_time, end_time
 ON lab.no = selected.lab_no
 ORDER BY lab_no, start_time;'''.format(date, date)
         tmp = self.run(sql)
-        # TODO: tmp 是一个混杂了 None 记录与有预约记录的字典 没有转换为所需结果
-        return tmp
+        # return tmp
+        lab_no = ''
+        rtn = []  # 最终结果
+        tmp_data = []  # 暂存各个实验室的记录
+        for t in tmp:
+            # 新的实验室记录
+            if t['lab_no'] != lab_no:
+                # 处理上一实验室记录
+                if lab_no != '':
+                    tmp_res = convert_busy_empty(date, tmp_data, False)
+                    for tr in tmp_res:
+                        rtn.append({
+                            'lab_no': lab_no,
+                            'start_time': tr['start_time'],
+                            'end_time': tr['end_time'],
+                        })
+                # 置零 记录下一实验室
+                lab_no = t['lab_no']
+                tmp_data = []
+            # 上一个实验室的记录 None记录不入栈tmp_data
+            if t['start_time'] is not None and t['end_time'] is not None:
+                tmp_data.append(t)
+            else:
+                tmp_res = convert_busy_empty(date, [], False)[0]
+                rtn.append({
+                    'lab_no': lab_no,
+                    'start_time': tmp_res['start_time'],
+                    'end_time': tmp_res['end_time'],
+                })
+        return rtn
 
     # update --------------------------------------------------------------------------------------------------
 
@@ -208,7 +243,7 @@ def datetime_check(str_datetime):
     set_date, set_time = str_datetime.split(' ')
     dates = set_date.split('-')
     times = set_time.split(':')
-    for s in dates+times:
+    for s in dates + times:
         if not s.isdigit():
             return {
                 'format': False,
@@ -224,5 +259,9 @@ def datetime_check(str_datetime):
 
 
 if __name__ == '__main__':
-    res = datetime_check('2022-12-23 15:30'+':00')
-    print(res)
+    # res = db.admin_select_2('G101', '2022-12-23')
+    res = db.admin_select_4('2022-12-23')
+    # res = convert_busy_empty('2022-12-23', [], False)
+    for r in res:
+        print(r)
+    db.close()

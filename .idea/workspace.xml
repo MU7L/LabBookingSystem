@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0a083f85-bbd3-47fa-b61e-bb23d6484825" name="默认更改列表" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +207,7 @@
       <workItem from="1671681789481" duration="4765000" />
       <workItem from="1671709601181" duration="115000" />
       <workItem from="1671709779908" duration="1196000" />
-      <workItem from="1671761555851" duration="16320000" />
+      <workItem from="1671761555851" duration="17171000" />
     </task>
     <task id="LOCAL-00001" summary="V1.1">
       <created>1671765487128</created>
@@ -238,7 +237,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671780715113</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="完成由预约记录到空闲时间段的转换">
+      <created>1671785039689</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1671785039689</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -260,7 +266,8 @@
     <MESSAGE value="修改入口main" />
     <MESSAGE value="添加时间格式与范围检查datetime_check" />
     <MESSAGE value="修改datetime_check" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改datetime_check" />
+    <MESSAGE value="v1.2 完成由预约记录到空闲时间段的转换" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.2 完成由预约记录到空闲时间段的转换" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="174" key="#SQL_方言" timestamp="1669263076818">
@@ -275,10 +282,14 @@
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
     <state x="690" y="262" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.7.1280.776/0.0.1920.1032@0.0.1920.1032" timestamp="1669292998759" />
-    <state x="261" y="0" key="CommitChangelistDialog2" timestamp="1671785003107">
+    <state x="261" y="0" key="CommitChangelistDialog2" timestamp="1671785039203">
       <screen x="0" y="0" width="1280" height="752" />
     </state>
-    <state x="261" y="0" key="CommitChangelistDialog2/0.0.1280.752@0.0.1280.752" timestamp="1671785003107" />
+    <state x="261" y="0" key="CommitChangelistDialog2/0.0.1280.752@0.0.1280.752" timestamp="1671785039203" />
+    <state x="494" y="277" key="GitRewordDialog" timestamp="1671785066561">
+      <screen x="0" y="0" width="1280" height="752" />
+    </state>
+    <state x="494" y="277" key="GitRewordDialog/0.0.1280.752@0.0.1280.752" timestamp="1671785066561" />
     <state width="1238" height="180" key="GridCell.Tab.0.bottom" timestamp="1671784991924">
       <screen x="0" y="0" width="1280" height="752" />
     </state>
@@ -348,7 +359,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/database.py</url>
-          <line>169</line>
+          <line>168</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>

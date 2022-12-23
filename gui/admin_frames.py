@@ -3,7 +3,7 @@ import tkinter.messagebox as tkm
 from tkinter import ttk
 
 import global_manager as gm
-from database import db
+from database import db, datetime_check
 
 
 # insert ----------------------------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ class InsertDeviceFrame(tk.Frame):
         if db.admin_insert('device', no=no, name=name, lab_no=lab_no):
             tkm.showinfo(title='录入成功', message='{}[{}] 录入成功'.format(name, no))
         else:
-            # TODO: 将db的异常显示到msg中
+            # TODO: 返回db异常
             msg = '''录入失败原因可能是：
 1. 已有该设备编号
 2. 没找到对应实验室编号'''
@@ -146,6 +146,7 @@ class InsertBookingFrame(tk.Frame):
     def __init__(self):
         super().__init__(gm.root)
         tk.Label(self, text='[ 录入预约记录 ]').pack()
+        tk.Label(self, text='预约时间限定为 8:00-22:00').pack()
 
         # data
         self.data_teacher_no = tk.StringVar()
@@ -180,13 +181,20 @@ class InsertBookingFrame(tk.Frame):
         entry_user.pack()
         btn_logon.pack()
 
-    # TODO: 检查time合法性？
     def btn_logon_click(self):
         teacher_no = self.data_teacher_no.get()
         lab_no = self.data_lab_no.get()
         start_time = self.data_start_time.get() + ':00'
+        check_start_time = datetime_check(start_time)
         end_time = self.data_end_time.get() + ':00'
+        check_end_time = datetime_check(end_time)
         user = self.data_user.get()
+        if check_start_time['format'] and check_end_time['format']:
+            tkm.askretrycancel(title='录入失败', message='时间格式不正确。请检查格式是否为 yyyy-mm-dd hh:mm')
+            return
+        if check_start_time['range'] and check_end_time['range']:
+            tkm.askretrycancel(title='录入失败', message='超出预约时间段。预约时间限定为 8:00-22:00')
+            return
         if db.admin_insert('booking', teacher_no=teacher_no, lab_no=lab_no, start_time=start_time, end_time=end_time,
                            user=user):
             tkm.showinfo(title='录入成功', message='{}-{} @{} 录入成功'.format(teacher_no, lab_no, start_time))
@@ -194,7 +202,7 @@ class InsertBookingFrame(tk.Frame):
             msg = '''录入失败原因可能是：
 1. 教师编号/实验室编号不存在
 2. 起始/结束时间格式不正确'''
-            tkm.askretrycancel(title='录入失败', message=msg)
+            tkm.askretrycancel(title='录入失败', message='msg')
 
 
 # select ----------------------------------------------------------------------------------------------------------
@@ -292,8 +300,7 @@ class SelectLabFrame1(tk.Frame):
         lab_no = self.str_lab_no.get()
         date = self.str_date.get()
         res = [{c: 'None' for c in self.columns}]
-        # TODO: 检查date合法性？
-        if lab_no != '' and date != 'yyyy-mm-dd':
+        if lab_no != '' and datetime_check(date+' 00:00:00')['format']:
             res = db.admin_select_2(lab_no, date)
         for r in res:
             self.table.insert('', 'end', values=tuple(r.values()))
@@ -376,8 +383,7 @@ class SelectLabFrame2(tk.Frame):
         # new data
         date = self.str_date.get()
         res = [{c: 'None' for c in self.columns}]
-        # TODO: 检查date合法性？
-        if date != 'yyyy-mm-dd':
+        if datetime_check(date+' 00:00:00')['format']:
             res = db.admin_select_4(date)
         for r in res:
             self.table.insert('', 'end', values=tuple(r.values()))
@@ -632,6 +638,9 @@ class DeleteBookingFrame1(tk.Frame):
 
     def delete(self):
         date = self.data_date.get()
+        if not datetime_check(date+' 00:00:00')['format']:
+            tkm.askretrycancel(title='删除失败', message='时间格式有误')
+            return
         no = self.data_no.get()
         if tkm.askokcancel(title='删除', message='是否删除该记录'):
             if db.admin_delete_4(date, no):
@@ -658,6 +667,8 @@ class DeleteBookingFrame2(tk.Frame):
 
     def delete(self):
         year = self.year.get()
+        if not year.isdigit():
+            tkm.showinfo(title='删除失败', message='年份格式有误')
         if tkm.askokcancel(title='删除', message='是否删除该年所有记录'):
             if db.admin_delete_5(year):
                 tkm.showinfo(title='删除成功', message='预约记录已删除')

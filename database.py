@@ -202,8 +202,27 @@ WHERE YEAR(start_time) = '{}' OR YEAR(end_time) = '{}';'''.format(year, year)
 
 db = MySQLHelper()
 
+
+def datetime_check(datetime_str):
+    # date = 'yyyy-mm-dd hh:mm:ss'
+    date, time = datetime_str.split(' ')
+    date = date.split('-')
+    time = time.split(':')
+    format_check = True
+    for s in date+time:
+        if not s.isdigit():
+            format_check = False
+    range_check = True
+    early = datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
+    dt = datetime(int(date[0]), int(date[1]), int(date[2]), int(time[0]), int(time[1]), int(time[2]))
+    late = datetime.now().replace(hour=22, minute=0, second=0, microsecond=0)
+    range_check = early < dt < late
+    return {
+        'format': format_check,
+        'range': range_check
+    }
+
+
 if __name__ == '__main__':
-    # sql = 'SELECT SUM(TIMESTAMPDIFF(MINUTE,start_time,end_time)) as sum_minutes FROM booking;'
-    # t = db.run(sql)[0]['sum_minutes']
-    t = db.admin_stats()
-    print(t)
+    res = datetime_check('2022-12-23 12:18:00')
+    print(res)

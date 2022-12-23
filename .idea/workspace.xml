@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0a083f85-bbd3-47fa-b61e-bb23d6484825" name="默认更改列表" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui/admin_frames.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/admin_frames.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui/admin_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui/admin_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +60,7 @@
       <recent name="D:\dev\LabBooking\gui" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.admin_page (1)">
+  <component name="RunManager" selected="Python.main">
     <configuration name="admin_page (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="LabBooking" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -210,12 +207,35 @@
       <workItem from="1671681789481" duration="4765000" />
       <workItem from="1671709601181" duration="115000" />
       <workItem from="1671709779908" duration="1196000" />
-      <workItem from="1671761555851" duration="3747000" />
+      <workItem from="1671761555851" duration="4079000" />
     </task>
+    <task id="LOCAL-00001" summary="V1.1">
+      <created>1671765487128</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1671765487128</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="V1.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="V1.1" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="174" key="#SQL_方言" timestamp="1669263076818">
@@ -230,25 +250,29 @@
       <screen x="0" y="0" width="1920" height="1032" />
     </state>
     <state x="690" y="262" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.7.1280.776/0.0.1920.1032@0.0.1920.1032" timestamp="1669292998759" />
-    <state width="1238" height="223" key="GridCell.Tab.0.bottom" timestamp="1671765196665">
+    <state x="261" y="0" key="CommitChangelistDialog2" timestamp="1671765486648">
       <screen x="0" y="0" width="1280" height="752" />
     </state>
-    <state width="1238" height="223" key="GridCell.Tab.0.bottom/0.0.1280.752@0.0.1280.752" timestamp="1671765196665" />
+    <state x="261" y="0" key="CommitChangelistDialog2/0.0.1280.752@0.0.1280.752" timestamp="1671765486648" />
+    <state width="1238" height="180" key="GridCell.Tab.0.bottom" timestamp="1671765496160">
+      <screen x="0" y="0" width="1280" height="752" />
+    </state>
+    <state width="1238" height="180" key="GridCell.Tab.0.bottom/0.0.1280.752@0.0.1280.752" timestamp="1671765496160" />
     <state width="1877" height="273" key="GridCell.Tab.0.bottom/1920.7.1280.776/0.0.1920.1032@0.0.1920.1032" timestamp="1669894051724" />
-    <state width="1238" height="223" key="GridCell.Tab.0.center" timestamp="1671765196659">
+    <state width="1238" height="180" key="GridCell.Tab.0.center" timestamp="1671765496160">
       <screen x="0" y="0" width="1280" height="752" />
     </state>
-    <state width="1238" height="223" key="GridCell.Tab.0.center/0.0.1280.752@0.0.1280.752" timestamp="1671765196659" />
+    <state width="1238" height="180" key="GridCell.Tab.0.center/0.0.1280.752@0.0.1280.752" timestamp="1671765496160" />
     <state width="1877" height="273" key="GridCell.Tab.0.center/1920.7.1280.776/0.0.1920.1032@0.0.1920.1032" timestamp="1669894051724" />
-    <state width="1238" height="223" key="GridCell.Tab.0.left" timestamp="1671765196659">
+    <state width="1238" height="180" key="GridCell.Tab.0.left" timestamp="1671765496160">
       <screen x="0" y="0" width="1280" height="752" />
     </state>
-    <state width="1238" height="223" key="GridCell.Tab.0.left/0.0.1280.752@0.0.1280.752" timestamp="1671765196659" />
+    <state width="1238" height="180" key="GridCell.Tab.0.left/0.0.1280.752@0.0.1280.752" timestamp="1671765496160" />
     <state width="1877" height="273" key="GridCell.Tab.0.left/1920.7.1280.776/0.0.1920.1032@0.0.1920.1032" timestamp="1669894051724" />
-    <state width="1238" height="223" key="GridCell.Tab.0.right" timestamp="1671765196659">
+    <state width="1238" height="180" key="GridCell.Tab.0.right" timestamp="1671765496160">
       <screen x="0" y="0" width="1280" height="752" />
     </state>
-    <state width="1238" height="223" key="GridCell.Tab.0.right/0.0.1280.752@0.0.1280.752" timestamp="1671765196659" />
+    <state width="1238" height="180" key="GridCell.Tab.0.right/0.0.1280.752@0.0.1280.752" timestamp="1671765496160" />
     <state width="1877" height="273" key="GridCell.Tab.0.right/1920.7.1280.776/0.0.1920.1032@0.0.1920.1032" timestamp="1669894051724" />
     <state width="1238" height="223" key="GridCell.Tab.1.bottom" timestamp="1671765196665">
       <screen x="0" y="0" width="1280" height="752" />

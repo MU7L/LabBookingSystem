@@ -7,4 +7,5 @@ from database import db
 gm.root = tk.Tk()
 LoginPage()
 gm.root.mainloop()
+print(gm.user['name'], '退出')
 db.close()

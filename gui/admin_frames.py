@@ -498,7 +498,7 @@ class UpdateDeviceFrame(tk.Frame):
         entry_no = tk.Entry(self, textvariable=self.data_no)
         label_name = tk.Label(self, text='修改设备名：')
         entry_name = tk.Entry(self, textvariable=self.data_name)
-        label_lab_no = tk.Label(self, text='修改设备所属实验室：')
+        label_lab_no = tk.Label(self, text='修改设备所属实验室编号：')
         entry_lab_no = tk.Entry(self, textvariable=self.data_lab_no)
         btn_update = tk.Button(self, text='修改', command=lambda: self.btn_update_click())
 
@@ -517,7 +517,10 @@ class UpdateDeviceFrame(tk.Frame):
         if db.admin_update('device', no, name=name, lab_no=lab_no):
             tkm.showinfo(title='修改成功', message='{}[{}] 修改成功'.format(name, no))
         else:
-            tkm.askretrycancel(title='修改失败', message='请检查设备编号是否存在')
+            msg = '''修改失败原因可能为：
+1. 设备编号不存在
+2. 实验室号不存在'''
+            tkm.askretrycancel(title='修改失败', message=msg)
 
 
 # delete ----------------------------------------------------------------------------------------------------------
@@ -630,11 +633,12 @@ class DeleteBookingFrame1(tk.Frame):
     def delete(self):
         date = self.data_date.get()
         no = self.data_no.get()
-        if tkm.askokcancel(title='删除确认', message='再次确认是否删除该记录'):
-            if db.admin_delete_4('device', date, no):
+        if tkm.askokcancel(title='删除', message='是否删除该记录'):
+            if db.admin_delete_4(date, no):
                 tkm.showinfo(title='删除成功', message='预约记录已删除')
             else:
-                tkm.askretrycancel(title='删除失败', message='删除失败')
+                # TODO: 返回db异常
+                tkm.askretrycancel(title='删除失败', message='该记录不存在')
 
 
 # 删除预约记录(按年)
@@ -654,11 +658,11 @@ class DeleteBookingFrame2(tk.Frame):
 
     def delete(self):
         year = self.year.get()
-        if tkm.askokcancel(title='删除确认', message='再次确认是否删除该年所有记录'):
-            if db.admin_delete_5('device', year):
+        if tkm.askokcancel(title='删除', message='是否删除该年所有记录'):
+            if db.admin_delete_5(year):
                 tkm.showinfo(title='删除成功', message='预约记录已删除')
             else:
-                tkm.askretrycancel(title='删除失败', message='删除失败')
+                tkm.askretrycancel(title='删除失败', message='记录不存在')
 
 
 # stats ----------------------------------------------------------------------------------------------------------
@@ -675,11 +679,13 @@ class StatsFrame(tk.Frame):
         label_data_year = tk.Label(self, textvariable=self.data_years)
         label_title_month = tk.Label(self, text='各实验室被预约总时长 (月)')
         label_data_month = tk.Label(self, textvariable=self.data_months)
+        btn_flash = tk.Button(self, text='刷新', command=lambda: self.load_data())
 
         label_title_year.pack()
         label_data_year.pack()
         label_title_month.pack()
         label_data_month.pack()
+        btn_flash.pack()
 
         self.load_data()
 

@@ -78,7 +78,7 @@ class AdminPage:
 
 if __name__ == '__main__':
     user = {
-        'no': '0',
+        'no': '10000',
         'name': 'admin'
     }
     gm.root = tk.Tk()

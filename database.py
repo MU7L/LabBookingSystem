@@ -93,8 +93,8 @@ VALUES
 
     # 通过教师编号或教师名查询该教师某一时间段内的预定记录
     def admin_select_1(self, option, value):
-        # option = no
-        # value = 0
+        # option = 'no' / 'name'
+        # value = '1000x' / 'name'
         sql = '''SELECT teacher.name as teacher_name, lab.no as lab_no, booking.start_time, booking.end_time, booking.user
 FROM booking
 JOIN teacher ON booking.teacher_no = teacher.no
@@ -192,25 +192,18 @@ WHERE YEAR(start_time) = '{}' OR YEAR(end_time) = '{}';'''.format(year, year)
     def admin_stats(self):
         sql = 'SELECT SUM(TIMESTAMPDIFF(MINUTE,start_time,end_time)) as sum_minutes FROM booking;'
         res = self.run(sql)[0]['sum_minutes']
-        months = round(res / 60 / 30, 1)  # 按一个月30天
-        years = round(months / 12, 1)
+        months = 0
+        years = 0
+        if res is not None:
+            months = round(res / 60 / 30, 1)  # 按一个月30天
+            years = round(months / 12, 1)
         return months, years
-
-    # 密码维护 对教师账户密码的修改
-    def admin_password(self, no, new_pswd):
-        sql = "UPDATE teacher SET `password` = '{}' WHERE no = '{}';".format(new_pswd, no)
-        return self.run(sql)
 
 
 db = MySQLHelper()
 
 if __name__ == '__main__':
-    sql = '''SELECT lab.no as lab_no, selected.start_time, selected.end_time
-FROM lab
-LEFT JOIN (SELECT lab_no, start_time, end_time
-	FROM booking
-	WHERE DATE(start_time) = '2022-12-21' AND DATE(end_time) = '2022-12-21') as selected
-ON lab.no = selected.lab_no
-ORDER BY lab_no, start_time;'''
-    tmp = db.run(sql)
-    print(tmp)
+    # sql = 'SELECT SUM(TIMESTAMPDIFF(MINUTE,start_time,end_time)) as sum_minutes FROM booking;'
+    # t = db.run(sql)[0]['sum_minutes']
+    t = db.admin_stats()
+    print(t)

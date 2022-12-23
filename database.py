@@ -1,5 +1,5 @@
 import pymysql
-from datetime import datetime
+from datetime import datetime, time
 
 from global_manager import user
 
@@ -54,12 +54,12 @@ class MySQLHelper:
 
     def check_login_test(self, test):
         if test == 0:
-            user['no'] = '0'
+            user['no'] = '10000'
             user['name'] = 'admin'
             return True, '登录成功'
         else:
-            user['no'] = '1'
-            user['name'] = '从永年'
+            user['no'] = '10001'
+            user['name'] = '教师a'
             return True, '登录成功'
 
     # insert -----------------------------------------------------------------------------------------------------
@@ -203,26 +203,26 @@ WHERE YEAR(start_time) = '{}' OR YEAR(end_time) = '{}';'''.format(year, year)
 db = MySQLHelper()
 
 
-def datetime_check(datetime_str):
+def datetime_check(str_datetime):
     # date = 'yyyy-mm-dd hh:mm:ss'
-    date, time = datetime_str.split(' ')
-    date = date.split('-')
-    time = time.split(':')
-    format_check = True
-    for s in date+time:
+    set_date, set_time = str_datetime.split(' ')
+    dates = set_date.split('-')
+    times = set_time.split(':')
+    for s in dates+times:
         if not s.isdigit():
-            format_check = False
-    range_check = True
-    early = datetime.now().replace(hour=8, minute=0, second=0, microsecond=0)
-    dt = datetime(int(date[0]), int(date[1]), int(date[2]), int(time[0]), int(time[1]), int(time[2]))
-    late = datetime.now().replace(hour=22, minute=0, second=0, microsecond=0)
-    range_check = early < dt < late
+            return {
+                'format': False,
+                'range': False
+            }
+    dt = datetime(int(dates[0]), int(dates[1]), int(dates[2]), int(times[0]), int(times[1]), int(times[2]))
+    early = time(8, 0)
+    late = time(22, 0)
     return {
-        'format': format_check,
-        'range': range_check
+        'format': True,
+        'range': early < dt.time() < late and dt > datetime.now()
     }
 
 
 if __name__ == '__main__':
-    res = datetime_check('2022-12-23 12:18:00')
+    res = datetime_check('2022-12-23 15:30'+':00')
     print(res)

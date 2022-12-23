@@ -189,11 +189,11 @@ class InsertBookingFrame(tk.Frame):
         end_time = self.data_end_time.get() + ':00'
         check_end_time = datetime_check(end_time)
         user = self.data_user.get()
-        if check_start_time['format'] and check_end_time['format']:
+        if not(check_start_time['format'] and check_end_time['format']):
             tkm.askretrycancel(title='录入失败', message='时间格式不正确。请检查格式是否为 yyyy-mm-dd hh:mm')
             return
-        if check_start_time['range'] and check_end_time['range']:
-            tkm.askretrycancel(title='录入失败', message='超出预约时间段。预约时间限定为 8:00-22:00')
+        if not(check_start_time['range'] and check_end_time['range']):
+            tkm.askretrycancel(title='录入失败', message='不在预约时间段内。预约时间限定为 8:00 - 22:00')
             return
         if db.admin_insert('booking', teacher_no=teacher_no, lab_no=lab_no, start_time=start_time, end_time=end_time,
                            user=user):

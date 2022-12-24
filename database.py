@@ -191,6 +191,14 @@ ORDER BY lab_no, start_time;'''.format(date, date)
                     'start_time': tmp_res['start_time'],
                     'end_time': tmp_res['end_time'],
                 })
+        if len(tmp_data) != 0:
+            tmp_res = convert_busy_empty(date, tmp_data, False)
+            for tr in tmp_res:
+                rtn.append({
+                    'lab_no': lab_no,
+                    'start_time': tr['start_time'],
+                    'end_time': tr['end_time'],
+                })
         return rtn
 
     # update --------------------------------------------------------------------------------------------------
